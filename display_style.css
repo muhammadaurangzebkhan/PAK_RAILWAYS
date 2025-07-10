@@ -1,0 +1,209 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #f0f0f0; /* Light text for dark themes */
+    font-size: 16px; /* Base font size for projector readability */
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.8em; /* Large main heading */
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.display-container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px; /* Generous gap between sections */
+    width: 100%;
+    max-width: 2400px; /* Allow for very wide projector screens */
+    margin: 0 auto;
+}
+
+.route-section {
+    flex: 1 1 48%; /* Each section takes roughly half the space */
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column; /* Ensure table wrapper can grow */
+    min-width: 400px; /* Minimum width before stacking (if media query added) */
+}
+
+.route-section h2 {
+    font-size: 2em; /* Large section headings */
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.route-section h2 .arrow {
+    font-size: 0.8em;
+    margin: 0 10px;
+}
+
+.table-wrapper {
+    flex-grow: 1; /* Allows table to take available vertical space */
+    overflow-y: auto; /* Scroll for table content if it overflows section height */
+    border-radius: 6px; /* Match table's border radius for seamless scrollbar */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1em; /* Larger font size for table data */
+}
+
+th, td {
+    padding: 12px 15px; /* Generous padding */
+    text-align: left;
+    vertical-align: middle;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+}
+
+thead th {
+    font-weight: 600; /* Bolder headers */
+    font-size: 1.2em;
+    white-space: nowrap; /* Prevent headers from wrapping */
+}
+
+tbody tr:last-child td {
+    border-bottom: none; /* Remove border from last row's cells */
+}
+
+/* --- Departures Theme (Green) --- */
+.departures-theme {
+    background-color: #004d00; /* Dark Green */
+}
+.departures-theme h1, .departures-theme h2 { /* Assuming h1 could be themed if it were inside */
+    color: #90ee90; /* Light Green */
+    border-bottom-color: #38761d; /* Darker accent green */
+}
+.departures-theme table {
+    background-color: #005d00; /* Slightly lighter green for table bg */
+}
+.departures-theme th, .departures-theme td {
+    border-color: #006d00; /* Green border for table cells */
+    color: #e6ffe6; /* Very light green text */
+}
+.departures-theme thead th {
+    background-color: #38761d; /* Darker green for table header */
+    color: #e6ffe6;
+}
+.departures-theme tbody tr:nth-child(even) {
+    background-color: #005500; /* Slightly different green for even rows */
+}
+.departures-theme tbody tr:hover {
+    background-color: #006600; /* Hover effect */
+}
+.departures-theme .action-btn {
+    color: #e6ffe6;
+    border: 1px solid #77dd77;
+    padding: 6px 10px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 3px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.departures-theme .edit-btn { background-color: #5cb85c; } /* Softer green for edit */
+.departures-theme .edit-btn:hover { background-color: #4cae4c; color: #fff; }
+.departures-theme .remove-btn { background-color: #d9534f; } /* Red for remove */
+.departures-theme .remove-btn:hover { background-color: #c9302c; color: #fff; }
+
+
+/* --- Arrivals Theme (Blue) --- */
+.arrivals-theme {
+    background-color: #003366; /* Dark Blue */
+}
+.arrivals-theme h1, .arrivals-theme h2 { /* Assuming h1 could be themed if it were inside */
+    color: #add8e6; /* Light Blue */
+    border-bottom-color: #002244; /* Darker accent blue */
+}
+.arrivals-theme table {
+    background-color: #004488; /* Slightly lighter blue for table bg */
+}
+.arrivals-theme th, .arrivals-theme td {
+    border-color: #0055aa; /* Blue border for table cells */
+    color: #e0f7ff; /* Very light blue text */
+}
+.arrivals-theme thead th {
+    background-color: #002244; /* Darker blue for table header */
+    color: #e0f7ff;
+}
+.arrivals-theme tbody tr:nth-child(even) {
+    background-color: #004077; /* Slightly different blue for even rows */
+}
+.arrivals-theme tbody tr:hover {
+    background-color: #005099; /* Hover effect */
+}
+.arrivals-theme .action-btn {
+    color: #e0f7ff;
+    border: 1px solid #77aaff;
+    padding: 6px 10px;
+    font-size: 0.9em;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 3px;
+    transition: background-color 0.2s, color 0.2s;
+}
+.arrivals-theme .edit-btn { background-color: #5bc0de; } /* Softer blue for edit */
+.arrivals-theme .edit-btn:hover { background-color: #31b0d5; color: #fff; }
+.arrivals-theme .remove-btn { background-color: #d9534f; } /* Red for remove */
+.arrivals-theme .remove-btn:hover { background-color: #c9302c; color: #fff; }
+
+
+/* General Body Color - set based on context or make it neutral if not inside a themed section */
+/* If body is always one color, this is fine. If display pages have different overall bg, adjust */
+body {
+    background-color: #1a1a1a; /* Neutral very dark grey for overall page background */
+}
+h1 { /* General H1 for the page title, not inside a theme */
+    color: #cccccc;
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1024px) { /* Stack sections earlier for better readability */
+    .display-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .route-section {
+        flex-basis: auto; /* Allow sections to take full width when stacked */
+        min-width: unset; /* Remove min-width when stacked */
+        max-height: none; /* Allow sections to grow vertically */
+    }
+     h1 { font-size: 2.2em; }
+    .route-section h2 { font-size: 1.8em; }
+    table { font-size: 1em; }
+    thead th { font-size: 1.1em; }
+}
+
+@media (max-width: 768px) {
+    body { padding: 15px; }
+    h1 { font-size: 2em; }
+    .route-section h2 { font-size: 1.6em; }
+    .route-section { padding: 20px; }
+    th, td { padding: 10px 12px; }
+    table { font-size: 0.95em; }
+    thead th { font-size: 1em; }
+}
+
+@media (max-width: 480px) {
+    body { padding: 10px; }
+    h1 { font-size: 1.8em; }
+    .route-section h2 { font-size: 1.4em; }
+    .route-section { padding: 15px; }
+    th, td { padding: 8px 10px; font-size: 0.9em;}
+    thead th { font-size: 0.95em; }
+    .action-btn { padding: 5px 8px; font-size: 0.8em; }
+}

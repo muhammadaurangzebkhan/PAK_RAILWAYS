@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LHR - PSH Schedules</title>
+    <link rel="stylesheet" href="display_style.css">
+</head>
+<body>
+    <h1>Lahore - Peshawar Route Schedules</h1>
+
+    <div class="display-container">
+        <section id="lhr-psh-departures-section" class="route-section departures-theme">
+            <h2>LHR <span class="arrow">&rarr;</span> PSH (Departures)</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Train No</th>
+                            <th>Train Name</th>
+                            <th>Scheduled</th>
+                            <th>Expected</th>
+                            <th>Status</th>
+                            <th>Platform</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lhr-psh-departures-body">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="psh-lhr-arrivals-section" class="route-section arrivals-theme">
+            <h2>PSH <span class="arrow">&rarr;</span> LHR (Arrivals)</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Train No</th>
+                            <th>Train Name</th>
+                            <th>Scheduled</th>
+                            <th>Expected</th>
+                            <th>Status</th>
+                            <th>Platform</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="psh-lhr-arrivals-body">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="display_lhr_psh_script.js"></script>
+</body>
+</html>
