@@ -21,6 +21,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive grid */
             gap: 20px;
+            padding-bottom: 60px; /* Space for the footer */
         }
         .form-section {
             background-color: #34495e; /* Slightly lighter dark for sections */
@@ -53,6 +54,13 @@
             color: #ecf0f1;
             box-sizing: border-box;
         }
+        .form-section input.wide-train-name-input {
+            /* All inputs are already calc(100% - 16px), so this class is mostly semantic.
+               If specific sizing different from other text inputs was needed, it would go here.
+               For example, if other inputs were smaller:
+               min-width: 250px;
+            */
+        }
         .form-section button {
             background-color: #3498db;
             color: white;
@@ -69,11 +77,31 @@
         #confirmation-message {
             text-align: center;
             padding: 10px;
-            margin-top: 20px;
             background-color: #27ae60;
             color: white;
             border-radius: 5px;
             display: none; /* Hidden by default */
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: auto;
+            min-width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: #1f2b38; /* Darker than form sections */
+            color: #bdc3c7; /* Light grey text */
+            font-size: 0.9em;
+            border-top: 1px solid #2c3e50;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -88,7 +116,7 @@
             <h2>LHR - KC (Departure)</h2>
             <form id="form-lhr-kc-dep">
                 <div><label for="lhr-kc-dep-trainNo">Train No:</label><input type="text" id="lhr-kc-dep-trainNo" required></div>
-                <div><label for="lhr-kc-dep-trainName">Train Name:</label><input type="text" id="lhr-kc-dep-trainName" required></div>
+                <div><label for="lhr-kc-dep-trainName">Train Name:</label><input type="text" id="lhr-kc-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-kc-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-kc-dep-scheduledTime" required></div>
                 <div><label for="lhr-kc-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-kc-dep-expectedTime"></div>
                 <div><label for="lhr-kc-dep-status">Status:</label><select id="lhr-kc-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -102,7 +130,7 @@
             <h2>KC - LHR (Arrival)</h2>
             <form id="form-kc-lhr-arr">
                 <div><label for="kc-lhr-arr-trainNo">Train No:</label><input type="text" id="kc-lhr-arr-trainNo" required></div>
-                <div><label for="kc-lhr-arr-trainName">Train Name:</label><input type="text" id="kc-lhr-arr-trainName" required></div>
+                <div><label for="kc-lhr-arr-trainName">Train Name:</label><input type="text" id="kc-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="kc-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="kc-lhr-arr-scheduledTime" required></div>
                 <div><label for="kc-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="kc-lhr-arr-expectedTime"></div>
                 <div><label for="kc-lhr-arr-status">Status:</label><select id="kc-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -116,7 +144,7 @@
             <h2>LHR - PSH (Departure)</h2>
             <form id="form-lhr-psh-dep">
                 <div><label for="lhr-psh-dep-trainNo">Train No:</label><input type="text" id="lhr-psh-dep-trainNo" required></div>
-                <div><label for="lhr-psh-dep-trainName">Train Name:</label><input type="text" id="lhr-psh-dep-trainName" required></div>
+                <div><label for="lhr-psh-dep-trainName">Train Name:</label><input type="text" id="lhr-psh-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-psh-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-psh-dep-scheduledTime" required></div>
                 <div><label for="lhr-psh-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-psh-dep-expectedTime"></div>
                 <div><label for="lhr-psh-dep-status">Status:</label><select id="lhr-psh-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -130,7 +158,7 @@
             <h2>PSH - LHR (Arrival)</h2>
             <form id="form-psh-lhr-arr">
                 <div><label for="psh-lhr-arr-trainNo">Train No:</label><input type="text" id="psh-lhr-arr-trainNo" required></div>
-                <div><label for="psh-lhr-arr-trainName">Train Name:</label><input type="text" id="psh-lhr-arr-trainName" required></div>
+                <div><label for="psh-lhr-arr-trainName">Train Name:</label><input type="text" id="psh-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="psh-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="psh-lhr-arr-scheduledTime" required></div>
                 <div><label for="psh-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="psh-lhr-arr-expectedTime"></div>
                 <div><label for="psh-lhr-arr-status">Status:</label><select id="psh-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -144,7 +172,7 @@
             <h2>LHR - FSLD (Departure)</h2>
             <form id="form-lhr-fsld-dep">
                 <div><label for="lhr-fsld-dep-trainNo">Train No:</label><input type="text" id="lhr-fsld-dep-trainNo" required></div>
-                <div><label for="lhr-fsld-dep-trainName">Train Name:</label><input type="text" id="lhr-fsld-dep-trainName" required></div>
+                <div><label for="lhr-fsld-dep-trainName">Train Name:</label><input type="text" id="lhr-fsld-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-fsld-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-fsld-dep-scheduledTime" required></div>
                 <div><label for="lhr-fsld-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-fsld-dep-expectedTime"></div>
                 <div><label for="lhr-fsld-dep-status">Status:</label><select id="lhr-fsld-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -158,7 +186,7 @@
             <h2>FSLD - LHR (Arrival)</h2>
             <form id="form-fsld-lhr-arr">
                 <div><label for="fsld-lhr-arr-trainNo">Train No:</label><input type="text" id="fsld-lhr-arr-trainNo" required></div>
-                <div><label for="fsld-lhr-arr-trainName">Train Name:</label><input type="text" id="fsld-lhr-arr-trainName" required></div>
+                <div><label for="fsld-lhr-arr-trainName">Train Name:</label><input type="text" id="fsld-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="fsld-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="fsld-lhr-arr-scheduledTime" required></div>
                 <div><label for="fsld-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="fsld-lhr-arr-expectedTime"></div>
                 <div><label for="fsld-lhr-arr-status">Status:</label><select id="fsld-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -172,7 +200,7 @@
             <h2>LHR - NWL (Departure)</h2>
             <form id="form-lhr-nwl-dep">
                 <div><label for="lhr-nwl-dep-trainNo">Train No:</label><input type="text" id="lhr-nwl-dep-trainNo" required></div>
-                <div><label for="lhr-nwl-dep-trainName">Train Name:</label><input type="text" id="lhr-nwl-dep-trainName" required></div>
+                <div><label for="lhr-nwl-dep-trainName">Train Name:</label><input type="text" id="lhr-nwl-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-nwl-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-nwl-dep-scheduledTime" required></div>
                 <div><label for="lhr-nwl-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-nwl-dep-expectedTime"></div>
                 <div><label for="lhr-nwl-dep-status">Status:</label><select id="lhr-nwl-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -186,7 +214,7 @@
             <h2>NWL - LHR (Arrival)</h2>
             <form id="form-nwl-lhr-arr">
                 <div><label for="nwl-lhr-arr-trainNo">Train No:</label><input type="text" id="nwl-lhr-arr-trainNo" required></div>
-                <div><label for="nwl-lhr-arr-trainName">Train Name:</label><input type="text" id="nwl-lhr-arr-trainName" required></div>
+                <div><label for="nwl-lhr-arr-trainName">Train Name:</label><input type="text" id="nwl-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="nwl-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="nwl-lhr-arr-scheduledTime" required></div>
                 <div><label for="nwl-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="nwl-lhr-arr-expectedTime"></div>
                 <div><label for="nwl-lhr-arr-status">Status:</label><select id="nwl-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -200,7 +228,7 @@
             <h2>LHR - RWP (Departure)</h2>
             <form id="form-lhr-rwp-dep">
                 <div><label for="lhr-rwp-dep-trainNo">Train No:</label><input type="text" id="lhr-rwp-dep-trainNo" required></div>
-                <div><label for="lhr-rwp-dep-trainName">Train Name:</label><input type="text" id="lhr-rwp-dep-trainName" required></div>
+                <div><label for="lhr-rwp-dep-trainName">Train Name:</label><input type="text" id="lhr-rwp-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-rwp-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-rwp-dep-scheduledTime" required></div>
                 <div><label for="lhr-rwp-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-rwp-dep-expectedTime"></div>
                 <div><label for="lhr-rwp-dep-status">Status:</label><select id="lhr-rwp-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -214,7 +242,7 @@
             <h2>RWP - LHR (Arrival)</h2>
             <form id="form-rwp-lhr-arr">
                 <div><label for="rwp-lhr-arr-trainNo">Train No:</label><input type="text" id="rwp-lhr-arr-trainNo" required></div>
-                <div><label for="rwp-lhr-arr-trainName">Train Name:</label><input type="text" id="rwp-lhr-arr-trainName" required></div>
+                <div><label for="rwp-lhr-arr-trainName">Train Name:</label><input type="text" id="rwp-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="rwp-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="rwp-lhr-arr-scheduledTime" required></div>
                 <div><label for="rwp-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="rwp-lhr-arr-expectedTime"></div>
                 <div><label for="rwp-lhr-arr-status">Status:</label><select id="rwp-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -228,7 +256,7 @@
             <h2>LHR - Mianwali (Departure)</h2>
             <form id="form-lhr-mianwali-dep">
                 <div><label for="lhr-mianwali-dep-trainNo">Train No:</label><input type="text" id="lhr-mianwali-dep-trainNo" required></div>
-                <div><label for="lhr-mianwali-dep-trainName">Train Name:</label><input type="text" id="lhr-mianwali-dep-trainName" required></div>
+                <div><label for="lhr-mianwali-dep-trainName">Train Name:</label><input type="text" id="lhr-mianwali-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-mianwali-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-mianwali-dep-scheduledTime" required></div>
                 <div><label for="lhr-mianwali-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-mianwali-dep-expectedTime"></div>
                 <div><label for="lhr-mianwali-dep-status">Status:</label><select id="lhr-mianwali-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -242,7 +270,7 @@
             <h2>Mianwali - LHR (Arrival)</h2>
             <form id="form-mianwali-lhr-arr">
                 <div><label for="mianwali-lhr-arr-trainNo">Train No:</label><input type="text" id="mianwali-lhr-arr-trainNo" required></div>
-                <div><label for="mianwali-lhr-arr-trainName">Train Name:</label><input type="text" id="mianwali-lhr-arr-trainName" required></div>
+                <div><label for="mianwali-lhr-arr-trainName">Train Name:</label><input type="text" id="mianwali-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="mianwali-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="mianwali-lhr-arr-scheduledTime" required></div>
                 <div><label for="mianwali-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="mianwali-lhr-arr-expectedTime"></div>
                 <div><label for="mianwali-lhr-arr-status">Status:</label><select id="mianwali-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -256,7 +284,7 @@
             <h2>LHR - QTA (Departure)</h2>
             <form id="form-lhr-qta-dep">
                 <div><label for="lhr-qta-dep-trainNo">Train No:</label><input type="text" id="lhr-qta-dep-trainNo" required></div>
-                <div><label for="lhr-qta-dep-trainName">Train Name:</label><input type="text" id="lhr-qta-dep-trainName" required></div>
+                <div><label for="lhr-qta-dep-trainName">Train Name:</label><input type="text" id="lhr-qta-dep-trainName" class="wide-train-name-input" required></div>
                 <div><label for="lhr-qta-dep-scheduledTime">Scheduled Time:</label><input type="time" id="lhr-qta-dep-scheduledTime" required></div>
                 <div><label for="lhr-qta-dep-expectedTime">Expected Time:</label><input type="time" id="lhr-qta-dep-expectedTime"></div>
                 <div><label for="lhr-qta-dep-status">Status:</label><select id="lhr-qta-dep-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Departed">Departed</option></select></div>
@@ -270,7 +298,7 @@
             <h2>QTA - LHR (Arrival)</h2>
             <form id="form-qta-lhr-arr">
                 <div><label for="qta-lhr-arr-trainNo">Train No:</label><input type="text" id="qta-lhr-arr-trainNo" required></div>
-                <div><label for="qta-lhr-arr-trainName">Train Name:</label><input type="text" id="qta-lhr-arr-trainName" required></div>
+                <div><label for="qta-lhr-arr-trainName">Train Name:</label><input type="text" id="qta-lhr-arr-trainName" class="wide-train-name-input" required></div>
                 <div><label for="qta-lhr-arr-scheduledTime">Scheduled Time:</label><input type="time" id="qta-lhr-arr-scheduledTime" required></div>
                 <div><label for="qta-lhr-arr-expectedTime">Expected Time:</label><input type="time" id="qta-lhr-arr-expectedTime"></div>
                 <div><label for="qta-lhr-arr-status">Status:</label><select id="qta-lhr-arr-status"><option value="On Time">On Time</option><option value="Delayed">Delayed</option><option value="Cancelled">Cancelled</option><option value="Arrived">Arrived</option></select></div>
@@ -281,6 +309,7 @@
 
     </div> <!-- .forms-container -->
 
+    <div class="footer">developed by M.Aurangzeb khan</div>
     <script src="master_script.js"></script>
 </body>
 </html>

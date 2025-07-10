@@ -5,13 +5,16 @@ body {
     color: #f0f0f0; /* Light text for dark themes */
     font-size: 16px; /* Base font size for projector readability */
     line-height: 1.6;
+    background-color: #1a1a1a; /* Neutral very dark grey for overall page background */
+    padding-bottom: 60px; /* Add padding to the bottom of the body to make space for the footer */
 }
 
-h1 {
+h1 { /* General H1 for the page title, not inside a theme */
     text-align: center;
     font-size: 2.8em; /* Large main heading */
     margin-bottom: 30px;
     font-weight: 600;
+    color: #cccccc;
 }
 
 .display-container {
@@ -49,20 +52,21 @@ h1 {
     margin: 0 10px;
 }
 
+
 .table-wrapper {
-    flex-grow: 1; /* Allows table to take available vertical space */
-    overflow-y: auto; /* Scroll for table content if it overflows section height */
-    border-radius: 6px; /* Match table's border radius for seamless scrollbar */
+    flex-grow: 1;
+    overflow-y: auto;
+    border-radius: 6px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 1.1em; /* Larger font size for table data */
+    font-size: 1.1em;
 }
 
 th, td {
-    padding: 12px 15px; /* Generous padding */
+    padding: 12px 15px;
     text-align: left;
     vertical-align: middle;
     border-bottom-width: 2px;
@@ -70,140 +74,186 @@ th, td {
 }
 
 thead th {
-    font-weight: 600; /* Bolder headers */
+    font-weight: 600;
     font-size: 1.2em;
-    white-space: nowrap; /* Prevent headers from wrapping */
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 tbody tr:last-child td {
-    border-bottom: none; /* Remove border from last row's cells */
+    border-bottom: none;
 }
 
 /* --- Departures Theme (Green) --- */
 .departures-theme {
-    background-color: #004d00; /* Dark Green */
+    background-color: #004d00;
 }
-.departures-theme h1, .departures-theme h2 { /* Assuming h1 could be themed if it were inside */
-    color: #90ee90; /* Light Green */
-    border-bottom-color: #38761d; /* Darker accent green */
-}
-.departures-theme table {
-    background-color: #005d00; /* Slightly lighter green for table bg */
-}
-.departures-theme th, .departures-theme td {
-    border-color: #006d00; /* Green border for table cells */
-    color: #e6ffe6; /* Very light green text */
+.departures-theme h2 {
+    color: #90ee90;
+    border-bottom-color: #38761d;
 }
 .departures-theme thead th {
-    background-color: #38761d; /* Darker green for table header */
+    background-color: #004d00;
+    color: #b0ffb0;
+}
+.departures-theme th, .departures-theme td {
+    border-color: #006d00;
     color: #e6ffe6;
 }
 .departures-theme tbody tr:nth-child(even) {
-    background-color: #005500; /* Slightly different green for even rows */
+    background-color: #005500;
 }
 .departures-theme tbody tr:hover {
-    background-color: #006600; /* Hover effect */
+    background-color: #006600;
 }
 .departures-theme .action-btn {
-    color: #e6ffe6;
-    border: 1px solid #77dd77;
+    color: #003300;
+    border: none;
     padding: 6px 10px;
     font-size: 0.9em;
     border-radius: 4px;
     cursor: pointer;
     margin: 0 3px;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, transform 0.1s ease;
 }
-.departures-theme .edit-btn { background-color: #5cb85c; } /* Softer green for edit */
-.departures-theme .edit-btn:hover { background-color: #4cae4c; color: #fff; }
-.departures-theme .remove-btn { background-color: #d9534f; } /* Red for remove */
-.departures-theme .remove-btn:hover { background-color: #c9302c; color: #fff; }
+.departures-theme .edit-btn { background-color: #90ee90; }
+.departures-theme .edit-btn:hover { background-color: #77dd77; transform: translateY(-1px); }
+.departures-theme .remove-btn { background-color: #ff7777; color: #330000; }
+.departures-theme .remove-btn:hover { background-color: #ff5555; transform: translateY(-1px); }
 
 
 /* --- Arrivals Theme (Blue) --- */
 .arrivals-theme {
-    background-color: #003366; /* Dark Blue */
+    background-color: #003366;
 }
-.arrivals-theme h1, .arrivals-theme h2 { /* Assuming h1 could be themed if it were inside */
-    color: #add8e6; /* Light Blue */
-    border-bottom-color: #002244; /* Darker accent blue */
-}
-.arrivals-theme table {
-    background-color: #004488; /* Slightly lighter blue for table bg */
-}
-.arrivals-theme th, .arrivals-theme td {
-    border-color: #0055aa; /* Blue border for table cells */
-    color: #e0f7ff; /* Very light blue text */
+.arrivals-theme h2 {
+    color: #add8e6;
+    border-bottom-color: #002244;
 }
 .arrivals-theme thead th {
-    background-color: #002244; /* Darker blue for table header */
+    background-color: #003366;
+    color: #cceeff;
+}
+.arrivals-theme th, .arrivals-theme td {
+    border-color: #0055aa;
     color: #e0f7ff;
 }
 .arrivals-theme tbody tr:nth-child(even) {
-    background-color: #004077; /* Slightly different blue for even rows */
+    background-color: #004077;
 }
 .arrivals-theme tbody tr:hover {
-    background-color: #005099; /* Hover effect */
+    background-color: #005099;
 }
 .arrivals-theme .action-btn {
-    color: #e0f7ff;
-    border: 1px solid #77aaff;
+    color: #002244;
+    border: none;
     padding: 6px 10px;
     font-size: 0.9em;
     border-radius: 4px;
     cursor: pointer;
     margin: 0 3px;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s, transform 0.1s ease;
 }
-.arrivals-theme .edit-btn { background-color: #5bc0de; } /* Softer blue for edit */
-.arrivals-theme .edit-btn:hover { background-color: #31b0d5; color: #fff; }
-.arrivals-theme .remove-btn { background-color: #d9534f; } /* Red for remove */
-.arrivals-theme .remove-btn:hover { background-color: #c9302c; color: #fff; }
+.arrivals-theme .edit-btn { background-color: #add8e6; }
+.arrivals-theme .edit-btn:hover { background-color: #99ccdd; transform: translateY(-1px); }
+.arrivals-theme .remove-btn { background-color: #ff7777; color: #330000; }
+.arrivals-theme .remove-btn:hover { background-color: #ff5555; transform: translateY(-1px); }
 
-
-/* General Body Color - set based on context or make it neutral if not inside a themed section */
-/* If body is always one color, this is fine. If display pages have different overall bg, adjust */
-body {
-    background-color: #1a1a1a; /* Neutral very dark grey for overall page background */
+/* Footer Styling */
+.footer {
+    text-align: center;
+    padding: 15px;
+    margin-top: 25px;
+    background-color: #0f0f0f;
+    color: #999;
+    font-size: 0.9em;
+    border-top: 1px solid #333333;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    bottom: 0;
+    left: 0;
 }
-h1 { /* General H1 for the page title, not inside a theme */
-    color: #cccccc;
+
+/* Animation Keyframes */
+@keyframes subtleGlow {
+    0%, 100% {
+        text-shadow: 0 0 4px rgba(255, 255, 224, 0.2), 0 0 6px rgba(255, 255, 224, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 8px rgba(255, 255, 224, 0.5), 0 0 12px rgba(255, 255, 224, 0.5);
+    }
+}
+
+@keyframes statusColorPulseDeparture {
+    0%, 100% {
+        color: #e6ffe6; /* Base light green text from .departures-theme td */
+    }
+    50% {
+        color: #c0ffc0; /* Slightly brighter green */
+    }
+}
+
+@keyframes statusColorPulseArrival {
+    0%, 100% {
+        color: #e0f7ff; /* Base light blue text from .arrivals-theme td */
+    }
+    50% {
+        color: #d0f0ff; /* Slightly brighter blue */
+    }
+}
+
+/* Animation Classes (to be applied by JavaScript) */
+.animated-train-name {
+    animation: subtleGlow 3s infinite ease-in-out;
+}
+
+.departures-theme .animated-status { /* Applied to status cell in departure theme */
+    animation: statusColorPulseDeparture 2.5s infinite ease-in-out;
+}
+
+.arrivals-theme .animated-status { /* Applied to status cell in arrival theme */
+    animation: statusColorPulseArrival 2.5s infinite ease-in-out;
 }
 
 
 /* Responsive adjustments for smaller screens */
-@media (max-width: 1024px) { /* Stack sections earlier for better readability */
+@media (max-width: 1024px) {
     .display-container {
         flex-direction: column;
-        gap: 20px;
+        gap: 25px;
     }
     .route-section {
-        flex-basis: auto; /* Allow sections to take full width when stacked */
-        min-width: unset; /* Remove min-width when stacked */
-        max-height: none; /* Allow sections to grow vertically */
+        flex-basis: auto;
+        min-width: unset;
     }
      h1 { font-size: 2.2em; }
     .route-section h2 { font-size: 1.8em; }
     table { font-size: 1em; }
     thead th { font-size: 1.1em; }
+    .footer { font-size: 0.85em; padding: 10px; }
 }
 
 @media (max-width: 768px) {
-    body { padding: 15px; }
+    body { padding: 15px; padding-bottom: 50px; }
     h1 { font-size: 2em; }
     .route-section h2 { font-size: 1.6em; }
     .route-section { padding: 20px; }
     th, td { padding: 10px 12px; }
     table { font-size: 0.95em; }
     thead th { font-size: 1em; }
+    .footer { font-size: 0.8em; }
 }
 
 @media (max-width: 480px) {
-    body { padding: 10px; }
+    body { padding: 10px; padding-bottom: 40px; }
     h1 { font-size: 1.8em; }
     .route-section h2 { font-size: 1.4em; }
     .route-section { padding: 15px; }
     th, td { padding: 8px 10px; font-size: 0.9em;}
     thead th { font-size: 0.95em; }
     .action-btn { padding: 5px 8px; font-size: 0.8em; }
+    .footer { font-size: 0.75em; padding: 8px; }
 }
