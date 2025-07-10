@@ -175,10 +175,21 @@ tbody tr:last-child td {
     position: relative;
     bottom: 0;
     left: 0;
+    color: yellow; /* Changed to yellow */
+    animation: subtleGlowFooter 2s infinite ease-in-out; /* Added animation */
 }
 
 /* Animation Keyframes */
-@keyframes subtleGlow {
+@keyframes subtleGlowFooter { /* Define glow animation for footer */
+    0%, 100% {
+        text-shadow: 0 0 3px rgba(255, 255, 0, 0.4);
+    }
+    50% {
+        text-shadow: 0 0 8px rgba(255, 255, 0, 0.8);
+    }
+}
+
+@keyframes subtleGlow { /* Existing glow for train name - can be kept or merged if identical */
     0%, 100% {
         text-shadow: 0 0 4px rgba(255, 255, 224, 0.2), 0 0 6px rgba(255, 255, 224, 0.2);
     }
@@ -187,23 +198,42 @@ tbody tr:last-child td {
     }
 }
 
-@keyframes statusColorPulseDeparture {
+/* @keyframes statusColorPulseDeparture {
     0%, 100% {
-        color: #e6ffe6; /* Base light green text from .departures-theme td */
+        color: #e6ffe6;
     }
     50% {
-        color: #c0ffc0; /* Slightly brighter green */
+        color: #c0ffc0;
     }
 }
 
 @keyframes statusColorPulseArrival {
     0%, 100% {
-        color: #e0f7ff; /* Base light blue text from .arrivals-theme td */
+        color: #e0f7ff;
     }
     50% {
-        color: #d0f0ff; /* Slightly brighter blue */
+        color: #d0f0ff;
+    }
+} */
+
+@keyframes subtleGlowStatusDeparture {
+    0%, 100% {
+        text-shadow: 0 0 4px rgba(144, 238, 144, 0.3), 0 0 6px rgba(144, 238, 144, 0.3); /* Light green glow */
+    }
+    50% {
+        text-shadow: 0 0 8px rgba(144, 238, 144, 0.6), 0 0 12px rgba(144, 238, 144, 0.6);
     }
 }
+
+@keyframes subtleGlowStatusArrival {
+    0%, 100% {
+        text-shadow: 0 0 4px rgba(173, 216, 230, 0.3), 0 0 6px rgba(173, 216, 230, 0.3); /* Light blue glow */
+    }
+    50% {
+        text-shadow: 0 0 8px rgba(173, 216, 230, 0.6), 0 0 12px rgba(173, 216, 230, 0.6);
+    }
+}
+
 
 /* Animation Classes (to be applied by JavaScript) */
 .animated-train-name {
@@ -211,11 +241,11 @@ tbody tr:last-child td {
 }
 
 .departures-theme .animated-status { /* Applied to status cell in departure theme */
-    animation: statusColorPulseDeparture 2.5s infinite ease-in-out;
+    animation: subtleGlowStatusDeparture 2.5s infinite ease-in-out;
 }
 
 .arrivals-theme .animated-status { /* Applied to status cell in arrival theme */
-    animation: statusColorPulseArrival 2.5s infinite ease-in-out;
+    animation: subtleGlowStatusArrival 2.5s infinite ease-in-out;
 }
 
 
