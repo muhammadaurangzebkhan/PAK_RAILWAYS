@@ -66,19 +66,36 @@ document.addEventListener('DOMContentLoaded', () => {
         'display_lhr_mianwali.html',
         'display_lhr_qta.html'
     ];
-    const currentPageFileName = window.location.pathname.split('/').pop(); // Get current page filename
+    const currentPageFileName = window.location.pathname.split('/').pop();
     const currentIndexInSequence = pageSequence.indexOf(currentPageFileName);
 
-    if (currentIndexInSequence !== -1) { // Check if the current page is part of the defined sequence
-        const nextPageIndex = (currentIndexInSequence + 1) % pageSequence.length; // Loop back to the start
+    if (currentIndexInSequence !== -1) {
+        const nextPageIndex = (currentIndexInSequence + 1) % pageSequence.length;
         const nextPageFileName = pageSequence[nextPageIndex];
-
-        // console.log(`Current page: ${currentPageFileName}, Next page: ${nextPageFileName}`); // For debugging
 
         setTimeout(() => {
             window.location.href = nextPageFileName;
-        }, 30000); // Cycle every 30 seconds
-    } else {
-        // console.log(`Current page ${currentPageFileName} not in pageSequence for auto-cycling.`); // For debugging
+        }, 30000);
     }
+
+    // --- Date/Time Display Logic ---
+    const dateTimeElement = document.getElementById('current-datetime');
+
+    function updateDateTimeDisplay() {
+        if (dateTimeElement) {
+            const now = new Date();
+            const options = {
+                weekday: 'short', year: 'numeric', month: 'short',
+                day: 'numeric', hour: '2-digit', minute: '2-digit',
+                second: '2-digit', hour12: true
+            };
+            dateTimeElement.textContent = now.toLocaleString('en-US', options);
+        }
+    }
+
+    if (dateTimeElement) {
+        updateDateTimeDisplay(); // Initial call
+        setInterval(updateDateTimeDisplay, 1000); // Update every second
+    }
+    // --- End Date/Time Display Logic ---
 });
