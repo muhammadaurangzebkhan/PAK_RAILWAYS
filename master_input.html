@@ -16,6 +16,25 @@
         h1 {
             text-align: center;
             color: #3498db;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            padding-bottom: 10px; /* Add some padding if it wraps */
+            border-bottom: 1px solid #34495e; /* Optional: visual separator */
+            margin-bottom: 25px;
+        }
+        #page-title-text {
+            flex-grow: 1; /* Allow title to take available space */
+            text-align: left; /* Align title to left when date is on right */
+        }
+        .current-datetime-display {
+            font-size: 0.5em; /* Smaller than main title */
+            font-weight: normal;
+            color: #bdc3c7; /* Light grey */
+            margin-left: 20px; /* Space from title */
+            white-space: nowrap; /* Prevent date/time from wrapping itself */
+            flex-shrink: 0; /* Prevent it from shrinking too much */
         }
         .forms-container {
             display: grid;
@@ -202,7 +221,7 @@
 </head>
 <body>
 
-    <h1>Master Train Data Input</h1>
+    <h1><span id="page-title-text">Master Train Data Input</span><span id="current-datetime" class="current-datetime-display"></span></h1>
     <div id="confirmation-message">Data saved successfully!</div>
 
     <div class="forms-container">

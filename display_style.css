@@ -15,6 +15,27 @@ h1 { /* General H1 for the page title, not inside a theme */
     margin-bottom: 30px;
     font-weight: 600;
     color: #cccccc;
+    /* New H1 styling for flex layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    padding-bottom: 10px; /* Optional: if it wraps, give some space */
+    border-bottom: 1px solid #333; /* Optional: visual separator */
+    margin-bottom: 25px; /* Adjusted from 30px */
+}
+
+/* Span for the main title text, if needed for alignment */
+/* #page-title-text { flex-grow: 1; text-align: left; } */
+/* The default text-align:center on H1 might be fine if space-between pushes date to far right */
+
+.current-datetime-display {
+    font-size: 0.5em; /* Relative to H1's font size */
+    font-weight: normal;
+    color: #bbbbbb; /* Slightly lighter than H1 general color */
+    margin-left: 20px; /* Space from title */
+    white-space: nowrap; /* Prevent date/time from wrapping itself */
+    flex-shrink: 0; /* Prevent it from shrinking too much */
 }
 
 .display-container {

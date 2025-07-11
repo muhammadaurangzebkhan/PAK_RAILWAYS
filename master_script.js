@@ -32,7 +32,7 @@ const rwpLhrArrivalOptions = [
 const lhrQtaDepartureOptions = [{ trainNo: "39 UP", trainName: "Jaffar Express", scheduledTime: "09:40" }];
 const qtaLhrArrivalOptions = [{ trainNo: "40 DN", trainName: "Jaffar Express", scheduledTime: "16:45" }];
 const lhrMianwaliDepartureOptions = [{ trainNo: "147 UP", trainName: "Mari Indux Express", scheduledTime: "05:30" }];
-const mianwaliLhrArrivalOptions = [{ trainNo: "148 DN", trainName: "Mari Indux Express", scheduledTime: "18:15" }]; // Assuming a time for Mianwali-LHR
+const mianwaliLhrArrivalOptions = [{ trainNo: "148 DN", trainName: "Mari Indux Express", scheduledTime: "18:15" }]; // Updated placeholder time
 const lhrNwlDepartureOptions = [
     { trainNo: "171_UP", trainName: "Sialkot Express", scheduledTime: "05:00" }, { trainNo: "211_UP", trainName: "Narowal Passenger", scheduledTime: "07:15" },
     { trainNo: "09_UP", trainName: "Allama Iqbal Express", scheduledTime: "13:00" }, { trainNo: "125_UP", trainName: "Lasani Express", scheduledTime: "15:45" },
@@ -49,32 +49,31 @@ const lhrFsldDepartureOptions = [
 const fsldLhrArrivalOptions = [
     { trainNo: "111_UP", trainName: "Baddar Express", scheduledTime: "08:35" }, { trainNo: "113_UP", trainName: "Ghuri Express", scheduledTime: "18:10" }
 ];
-const lhrPshDepartureOptions = [ /* Placeholder - Data needs to be provided */ ];
-const pshLhrArrivalOptions = [ /* Placeholder - Data needs to be provided */ ];
+const lhrPshDepartureOptions = [ /* Data still needed */ ];
+const pshLhrArrivalOptions = [ /* Data still needed */ ];
 
-// Map route keys (used in local storage) to their data options and element prefixes
 const routeConfigs = {
-    'lhr_kc_departure': { options: lhrKcDepartureOptions, prefix: 'lhr-kc-dep' },
-    'kc_lhr_arrival': { options: kcLhrArrivalOptions, prefix: 'kc-lhr-arr' },
-    'lhr_psh_departure': { options: lhrPshDepartureOptions, prefix: 'lhr-psh-dep' },
-    'psh_lhr_arrival': { options: pshLhrArrivalOptions, prefix: 'psh-lhr-arr' },
-    'lhr_fsld_departure': { options: lhrFsldDepartureOptions, prefix: 'lhr-fsld-dep' },
-    'fsld_lhr_arrival': { options: fsldLhrArrivalOptions, prefix: 'fsld-lhr-arr' },
-    'lhr_nwl_departure': { options: lhrNwlDepartureOptions, prefix: 'lhr-nwl-dep' },
-    'nwl_lhr_arrival': { options: nwlLhrArrivalOptions, prefix: 'nwl-lhr-arr' },
-    'lhr_rwp_departure': { options: lhrRwpDepartureOptions, prefix: 'lhr-rwp-dep' },
-    'rwp_lhr_arrival': { options: rwpLhrArrivalOptions, prefix: 'rwp-lhr-arr' },
-    'lhr_mianwali_departure': { options: lhrMianwaliDepartureOptions, prefix: 'lhr-mianwali-dep' },
-    'mianwali_lhr_arrival': { options: mianwaliLhrArrivalOptions, prefix: 'mianwali-lhr-arr' },
-    'lhr_qta_departure': { options: lhrQtaDepartureOptions, prefix: 'lhr-qta-dep' },
-    'qta_lhr_arrival': { options: qtaLhrArrivalOptions, prefix: 'qta-lhr-arr' }
+    'lhr_kc_departure': { options: lhrKcDepartureOptions, prefix: 'lhr-kc-dep', formId: 'form-lhr-kc-dep' },
+    'kc_lhr_arrival': { options: kcLhrArrivalOptions, prefix: 'kc-lhr-arr', formId: 'form-kc-lhr-arr' },
+    'lhr_psh_departure': { options: lhrPshDepartureOptions, prefix: 'lhr-psh-dep', formId: 'form-lhr-psh-dep' },
+    'psh_lhr_arrival': { options: pshLhrArrivalOptions, prefix: 'psh-lhr-arr', formId: 'form-psh-lhr-arr' },
+    'lhr_fsld_departure': { options: lhrFsldDepartureOptions, prefix: 'lhr-fsld-dep', formId: 'form-lhr-fsld-dep' },
+    'fsld_lhr_arrival': { options: fsldLhrArrivalOptions, prefix: 'fsld-lhr-arr', formId: 'form-fsld-lhr-arr' },
+    'lhr_nwl_departure': { options: lhrNwlDepartureOptions, prefix: 'lhr-nwl-dep', formId: 'form-lhr-nwl-dep' },
+    'nwl_lhr_arrival': { options: nwlLhrArrivalOptions, prefix: 'nwl-lhr-arr', formId: 'form-nwl-lhr-arr' },
+    'lhr_rwp_departure': { options: lhrRwpDepartureOptions, prefix: 'lhr-rwp-dep', formId: 'form-lhr-rwp-dep' },
+    'rwp_lhr_arrival': { options: rwpLhrArrivalOptions, prefix: 'rwp-lhr-arr', formId: 'form-rwp-lhr-arr' },
+    'lhr_mianwali_departure': { options: lhrMianwaliDepartureOptions, prefix: 'lhr-mianwali-dep', formId: 'form-lhr-mianwali-dep' },
+    'mianwali_lhr_arrival': { options: mianwaliLhrArrivalOptions, prefix: 'mianwali-lhr-arr', formId: 'form-mianwali-lhr-arr' },
+    'lhr_qta_departure': { options: lhrQtaDepartureOptions, prefix: 'lhr-qta-dep', formId: 'form-lhr-qta-dep' },
+    'qta_lhr_arrival': { options: qtaLhrArrivalOptions, prefix: 'qta-lhr-arr', formId: 'form-qta-lhr-arr' }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
     const formsContainer = document.querySelector('.forms-container');
     const confirmationMessage = document.getElementById('confirmation-message');
     const LOCAL_STORAGE_KEY = 'trainAppSchedules';
-    let currentEditDetails = null;
+    let currentEditDetails = null; // { routeKey, index, formId }
 
     const showConfirmation = (message, isError = false) => {
         confirmationMessage.textContent = message;
@@ -99,25 +98,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (cancelButton) cancelButton.style.display = 'none';
 
-        // Reset display spans and hidden fields for the specific form
         const prefix = formElement.id.replace('form-', '');
         const trainNameDisplay = document.getElementById(`${prefix}-trainName-display`);
         const scheduledTimeDisplay = document.getElementById(`${prefix}-scheduledTime-display`);
         const hiddenTrainName = document.getElementById(`${prefix}-hidden-trainName`);
         const hiddenScheduledTime = document.getElementById(`${prefix}-hidden-scheduledTime`);
-
-        if (trainNameDisplay) trainNameDisplay.textContent = '-';
-        if (scheduledTimeDisplay) scheduledTimeDisplay.textContent = '-';
-        if (hiddenTrainName) hiddenTrainName.value = '';
-        if (hiddenScheduledTime) hiddenScheduledTime.value = '';
-
         const trainNoSelect = document.getElementById(`${prefix}-trainNo`);
-        if (trainNoSelect && trainNoSelect.tagName === 'SELECT') trainNoSelect.value = "";
 
+        if (trainNoSelect && trainNoSelect.tagName === 'SELECT') { // Only if it's a select
+             if(trainNameDisplay) trainNameDisplay.textContent = '-';
+             if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = '-';
+             if(hiddenTrainName) hiddenTrainName.value = '';
+             if(hiddenScheduledTime) hiddenScheduledTime.value = '';
+             trainNoSelect.value = ""; // Reset dropdown to default "Select"
+        }
     };
 
     function populateTrainNoDropdown(selectElement, optionsArray) {
-        if (!selectElement || !optionsArray) return;
+        if (!selectElement || !optionsArray || optionsArray.length === 0) {
+            if(selectElement) selectElement.innerHTML = '<option value="">-- No Data --</option>';
+            return;
+        }
         selectElement.innerHTML = '<option value="">-- Select Train No --</option>';
         optionsArray.forEach(train => {
             const option = document.createElement('option');
@@ -130,13 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleTrainNoChange(event) {
         const selectElement = event.target;
         const form = selectElement.closest('form');
+        if (!form) return;
         const prefix = form.id.replace('form-', '');
 
-        const routeKeyFromFormId = `${prefix.split('-')[0]}_${prefix.split('-')[1]}_${prefix.split('-')[2] === 'dep' ? 'departure' : 'arrival'}`;
-        const config = routeConfigs[routeKeyFromFormId];
-        if (!config) return;
+        const routeKeyFromFormId = Object.keys(routeConfigs).find(key => routeConfigs[key].prefix === prefix);
+        if (!routeKeyFromFormId) return;
 
+        const config = routeConfigs[routeKeyFromFormId];
         const optionsArray = config.options;
+
         const trainNameDisplay = document.getElementById(`${prefix}-trainName-display`);
         const scheduledTimeDisplay = document.getElementById(`${prefix}-scheduledTime-display`);
         const hiddenTrainName = document.getElementById(`${prefix}-hidden-trainName`);
@@ -158,11 +161,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize all dropdowns and attach change listeners
     for (const routeKey in routeConfigs) {
         const config = routeConfigs[routeKey];
         const selectElement = document.getElementById(`${config.prefix}-trainNo`);
-        if (selectElement && selectElement.tagName === 'SELECT') { // Ensure it's a select
+        if (selectElement && selectElement.tagName === 'SELECT') {
             populateTrainNoDropdown(selectElement, config.options);
             selectElement.addEventListener('change', handleTrainNoChange);
         }
@@ -174,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showConfirmation("Error: Invalid route configuration for edit.", true);
             return;
         }
-        const targetFormId = `form-${config.prefix}`;
+        const targetFormId = config.formId; // Use formId from config
 
         if (currentEditDetails && currentEditDetails.formId && currentEditDetails.formId !== targetFormId) {
             const currentlyEditingForm = document.getElementById(currentEditDetails.formId);
@@ -195,22 +197,17 @@ document.addEventListener('DOMContentLoaded', () => {
             currentEditDetails = null; return;
         }
         currentEditDetails = { routeKey, index, formId: targetFormId };
+        const prefix = config.prefix;
 
-        const trainNoSelect = document.getElementById(`${config.prefix}-trainNo`);
+        const trainNoSelect = document.getElementById(`${prefix}-trainNo`);
         if (trainNoSelect && trainNoSelect.tagName === 'SELECT') {
             trainNoSelect.value = item.trainNo;
-            trainNoSelect.dispatchEvent(new Event('change')); // Trigger change to update displays
-        } else { // Fallback for forms not yet converted (though all should be)
-            document.getElementById(`${config.prefix}-trainNo`).value = item.trainNo;
-            const trainNameField = document.getElementById(`${config.prefix}-trainName`); // Assuming text input if not span
-            const scheduledTimeField = document.getElementById(`${config.prefix}-scheduledTime`);
-            if(trainNameField) trainNameField.value = item.trainName;
-            if(scheduledTimeField) scheduledTimeField.value = item.scheduledTime;
+            trainNoSelect.dispatchEvent(new Event('change'));
         }
 
-        document.getElementById(`${config.prefix}-expectedTime`).value = item.expectedTime;
-        document.getElementById(`${config.prefix}-status`).value = item.status;
-        document.getElementById(`${config.prefix}-platformNo`).value = item.platformNo;
+        document.getElementById(`${prefix}-expectedTime`).value = item.expectedTime;
+        document.getElementById(`${prefix}-status`).value = item.status;
+        document.getElementById(`${prefix}-platformNo`).value = item.platformNo;
 
         formElement.querySelector('button[type="submit"]').textContent = 'Update Entry';
         const cancelButton = formElement.querySelector('.cancel-edit-btn');
@@ -225,20 +222,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 const submittedForm = this;
                 const submittedFormId = submittedForm.id;
                 const prefix = submittedFormId.replace('form-', '');
-                const currentRouteKey = `${prefix.split('-')[0]}_${prefix.split('-')[1]}_${prefix.split('-')[2] === 'dep' ? 'departure' : 'arrival'}`;
+                const currentRouteKey = Object.keys(routeConfigs).find(key => routeConfigs[key].prefix === prefix);
+
+                if (!currentRouteKey) {
+                    console.error("Could not determine routeKey for form:", submittedFormId);
+                    showConfirmation("Error: Form configuration not found.", true);
+                    return;
+                }
                 const config = routeConfigs[currentRouteKey];
 
-                let trainNo, trainName, scheduledTimeValue;
+                let trainNo = document.getElementById(`${config.prefix}-trainNo`).value;
+                let trainName = document.getElementById(`${config.prefix}-hidden-trainName`).value;
+                let scheduledTimeValue = document.getElementById(`${config.prefix}-hidden-scheduledTime`).value;
 
-                if (config) { // Form uses dropdown system
-                    trainNo = document.getElementById(`${config.prefix}-trainNo`).value;
-                    trainName = document.getElementById(`${config.prefix}-hidden-trainName`).value;
-                    scheduledTimeValue = document.getElementById(`${config.prefix}-hidden-scheduledTime`).value;
-                } else { // Should not happen if all forms are converted
-                    trainNo = document.getElementById(`${prefix}-trainNo`).value;
-                    trainName = document.getElementById(`${prefix}-trainName`).value;
-                    scheduledTimeValue = document.getElementById(`${prefix}-scheduledTime`).value;
+                // If the selected trainNo is empty, it means "-- Select Train No --" was chosen
+                // or the dropdown was for a route with no options. In this case, trainName and scheduledTime might be empty.
+                // A check might be needed if these are truly required even then. For now, assume they can be empty if TrainNo is not selected.
+                if (!trainNo) {
+                    showConfirmation("Please select a Train No.", true);
+                    return; // Prevent submission if no train number is selected
                 }
+
 
                 const expectedTimeValue = document.getElementById(`${prefix}-expectedTime`).value;
                 let statusValue = document.getElementById(`${prefix}-status`).value;
@@ -285,7 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     allSchedules[currentRouteKey].push(entryData);
                     const readableRouteKey = currentRouteKey.toUpperCase().replace(/_/G, ' ').replace(' DEP ', ' (Departure) ').replace(' ARR ', ' (Arrival) ');
                     showConfirmation(`Entry for ${readableRouteKey} added successfully!`);
-                    resetFormDisplay(submittedForm); // Use consistent reset for all forms
+                    resetFormDisplay(submittedForm);
                 }
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(allSchedules));
                 displayAllDataOnMasterPage();
@@ -362,7 +366,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const index = parseInt(target.dataset.index, 10);
                 populateFormForMasterEdit(routeKey, index);
             } else if (target.classList.contains('cancel-edit-btn')) {
-                const formElement = target.closest('form');
+                const formElement = target.closest('form'); // Get the form this cancel button belongs to
                  if (formElement) {
                     resetFormDisplay(formElement);
                     currentEditDetails = null;
@@ -372,5 +376,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    displayAllDataOnMasterPage(); // Initial render of tables
+    // Initial population of dropdowns and display of data
+    displayAllDataOnMasterPage();
+
+    // --- Date/Time Display Logic ---
+    const dateTimeElement = document.getElementById('current-datetime');
+    function updateDateTimeDisplay() {
+        if (dateTimeElement) {
+            const now = new Date();
+            const options = {
+                weekday: 'short', year: 'numeric', month: 'short',
+                day: 'numeric', hour: '2-digit', minute: '2-digit',
+                second: '2-digit', hour12: true
+            };
+            dateTimeElement.textContent = now.toLocaleString('en-US', options);
+        }
+    }
+    if (dateTimeElement) {
+        updateDateTimeDisplay();
+        setInterval(updateDateTimeDisplay, 1000);
+    }
+    // --- End Date/Time Display Logic ---
 });
