@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #2c3e50; /* Matching master_input.html background */
-            color: #ecf0f1;
+            background-color: #003300; /* Dark Green Background */
+            color: #e6ffe6; /* Light Green Text */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,7 +16,7 @@
             margin: 0;
         }
         .login-container {
-            background-color: #34495e;
+            background-color: #004d00; /* Darker Green Container */
             padding: 30px 40px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
@@ -25,7 +25,7 @@
             text-align: center;
         }
         .login-container h1 {
-            color: #3498db;
+            color: #90ee90; /* Light Green Heading */
             margin-bottom: 25px;
             font-size: 1.8em;
         }
@@ -38,19 +38,20 @@
         }
         .login-container input[type="text"],
         .login-container input[type="password"] {
-            width: calc(100% - 20px); /* Account for padding */
+            width: 100%; /* Use 100% and box-sizing */
             padding: 10px;
             margin-bottom: 20px;
             border-radius: 4px;
-            border: 1px solid #4A6572;
-            background-color: #2c3e50;
-            color: #ecf0f1;
+            border: 1px solid #006d00; /* Green border */
+            background-color: #005d00; /* Slightly lighter green for input */
+            color: #e6ffe6;
             box-sizing: border-box;
             font-size: 1em;
         }
         .login-container button[type="submit"] {
-            background-color: #3498db;
-            color: white;
+            background-color: #5cb85c; /* Bright Green Button */
+            color: #003300; /* Dark text for contrast */
+            font-weight: bold;
             padding: 12px 20px;
             border: none;
             border-radius: 4px;
@@ -60,18 +61,23 @@
             transition: background-color 0.2s ease;
         }
         .login-container button[type="submit"]:hover {
-            background-color: #2980b9;
+            background-color: #4cae4c; /* Darker green on hover */
         }
         #error-message {
-            color: #e74c3c; /* Red for errors */
+            color: #ff9999; /* Light Red/Pink for errors on dark background */
             margin-top: 15px;
             font-size: 0.9em;
-            min-height: 1.2em; /* Reserve space to prevent layout shift */
+            min-height: 1.2em;
+        }
+        .login-logo {
+            max-width: 120px; /* Or a size that fits your logo well */
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
+        <img src="https://via.placeholder.com/150/004d00/90ee90?text=Logo" alt="Logo" class="login-logo">
         <h1>Master Input Login</h1>
         <form id="login-form">
             <div>
