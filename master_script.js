@@ -32,7 +32,7 @@ const rwpLhrArrivalOptions = [
 const lhrQtaDepartureOptions = [{ trainNo: "39 UP", trainName: "Jaffar Express", scheduledTime: "09:40" }];
 const qtaLhrArrivalOptions = [{ trainNo: "40 DN", trainName: "Jaffar Express", scheduledTime: "16:45" }];
 const lhrMianwaliDepartureOptions = [{ trainNo: "147 UP", trainName: "Mari Indux Express", scheduledTime: "05:30" }];
-const mianwaliLhrArrivalOptions = [{ trainNo: "148 DN", trainName: "Mari Indux Express", scheduledTime: "18:15" }]; // Updated placeholder time
+const mianwaliLhrArrivalOptions = [{ trainNo: "148 DN", trainName: "Mari Indux Express", scheduledTime: "18:15" }];
 const lhrNwlDepartureOptions = [
     { trainNo: "171_UP", trainName: "Sialkot Express", scheduledTime: "05:00" }, { trainNo: "211_UP", trainName: "Narowal Passenger", scheduledTime: "07:15" },
     { trainNo: "09_UP", trainName: "Allama Iqbal Express", scheduledTime: "13:00" }, { trainNo: "125_UP", trainName: "Lasani Express", scheduledTime: "15:45" },
@@ -70,10 +70,17 @@ const routeConfigs = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Authentication Check ---
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'login.html'; // Redirect to login page
+        return; // Stop further execution of this script
+    }
+    // --- End Authentication Check ---
+
     const formsContainer = document.querySelector('.forms-container');
     const confirmationMessage = document.getElementById('confirmation-message');
     const LOCAL_STORAGE_KEY = 'trainAppSchedules';
-    let currentEditDetails = null; // { routeKey, index, formId }
+    let currentEditDetails = null;
 
     const showConfirmation = (message, isError = false) => {
         confirmationMessage.textContent = message;
@@ -105,70 +112,107 @@ document.addEventListener('DOMContentLoaded', () => {
         const hiddenScheduledTime = document.getElementById(`${prefix}-hidden-scheduledTime`);
         const trainNoSelect = document.getElementById(`${prefix}-trainNo`);
 
-        if (trainNoSelect && trainNoSelect.tagName === 'SELECT') { // Only if it's a select
+        if (trainNoSelect && trainNoSelect.tagName === 'SELECT') {
              if(trainNameDisplay) trainNameDisplay.textContent = '-';
              if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = '-';
              if(hiddenTrainName) hiddenTrainName.value = '';
              if(hiddenScheduledTime) hiddenScheduledTime.value = '';
-             trainNoSelect.value = ""; // Reset dropdown to default "Select"
+             trainNoSelect.value = "";
         }
     };
 
-    function populateTrainNoDropdown(selectElement, optionsArray) {
-        if (!selectElement || !optionsArray || optionsArray.length === 0) {
-            if(selectElement) selectElement.innerHTML = '<option value="">-- No Data --</option>';
+    function populateTrainNoDropdown(selectElement, optionsArray, routeKeyForDebug) {
+        // console.log(`Attempting to populate: ${selectElement ? selectElement.id : 'NULL selectElement'} for route ${routeKeyForDebug}`);
+        if (!selectElement) {
+            console.error(`populateTrainNoDropdown: Select element is null for route: ${routeKeyForDebug}. Check ID in HTML and routeConfigs prefix for ${routeKeyForDebug}.`);
             return;
         }
+        if (!optionsArray) {
+            console.warn(`populateTrainNoDropdown: Options array is undefined for route: ${routeKeyForDebug}. Dropdown will be empty or show 'No Data'.`);
+            selectElement.innerHTML = '<option value="">-- No Options Defined --</option>';
+            return;
+        }
+
         selectElement.innerHTML = '<option value="">-- Select Train No --</option>';
+        if (optionsArray.length === 0) {
+            // console.log(`populateTrainNoDropdown: Options array is empty for ${routeKeyForDebug}. Populating with 'No Data'.`);
+            // No need to add another option if it's already empty and has the default
+            // selectElement.innerHTML = '<option value="">-- No Data --</option>'; // This would overwrite the default select
+            return;
+        }
         optionsArray.forEach(train => {
             const option = document.createElement('option');
             option.value = train.trainNo;
             option.textContent = train.trainNo;
             selectElement.appendChild(option);
         });
+        // console.log(`Finished populating: ${selectElement.id}, options count: ${selectElement.options.length}`);
     }
 
     function handleTrainNoChange(event) {
         const selectElement = event.target;
+        // console.log(`Train No changed for: ${selectElement.id}, New value: ${selectElement.value}`);
         const form = selectElement.closest('form');
-        if (!form) return;
+        if (!form) {
+            console.error("handleTrainNoChange: Could not find parent form for select:", selectElement.id);
+            return;
+        }
         const prefix = form.id.replace('form-', '');
+        // console.log(`Derived prefix: ${prefix}`);
 
         const routeKeyFromFormId = Object.keys(routeConfigs).find(key => routeConfigs[key].prefix === prefix);
-        if (!routeKeyFromFormId) return;
+        if (!routeKeyFromFormId) {
+            console.error(`handleTrainNoChange: Could not find routeConfig for prefix: ${prefix}`);
+            return;
+        }
+        // console.log(`Found routeKey: ${routeKeyFromFormId}`);
 
         const config = routeConfigs[routeKeyFromFormId];
         const optionsArray = config.options;
+        // console.log("Using optionsArray:", optionsArray);
+
 
         const trainNameDisplay = document.getElementById(`${prefix}-trainName-display`);
         const scheduledTimeDisplay = document.getElementById(`${prefix}-scheduledTime-display`);
         const hiddenTrainName = document.getElementById(`${prefix}-hidden-trainName`);
         const hiddenScheduledTime = document.getElementById(`${prefix}-hidden-scheduledTime`);
 
+        // console.log("Display/Hidden elements:", trainNameDisplay, scheduledTimeDisplay, hiddenTrainName, hiddenScheduledTime);
+
         const selectedTrainNo = selectElement.value;
         const selectedTrainData = optionsArray.find(train => train.trainNo === selectedTrainNo);
+        // console.log("Selected Train No:", selectedTrainNo, "Found Data:", selectedTrainData);
 
         if (selectedTrainData) {
             if(trainNameDisplay) trainNameDisplay.textContent = selectedTrainData.trainName;
             if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = selectedTrainData.scheduledTime;
             if(hiddenTrainName) hiddenTrainName.value = selectedTrainData.trainName;
             if(hiddenScheduledTime) hiddenScheduledTime.value = selectedTrainData.scheduledTime;
+            // console.log("Updated fields with:", selectedTrainData.trainName, selectedTrainData.scheduledTime);
         } else {
             if(trainNameDisplay) trainNameDisplay.textContent = '-';
             if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = '-';
             if(hiddenTrainName) hiddenTrainName.value = '';
             if(hiddenScheduledTime) hiddenScheduledTime.value = '';
+            // console.log("Cleared fields because no train data found for:", selectedTrainNo);
         }
     }
 
+    // Initialize all dropdowns and attach change listeners
+    // console.log("Initializing dropdowns...");
     for (const routeKey in routeConfigs) {
         const config = routeConfigs[routeKey];
-        const selectElement = document.getElementById(`${config.prefix}-trainNo`);
+        const selectElementId = `${config.prefix}-trainNo`;
+        const selectElement = document.getElementById(selectElementId);
+        // console.log(`Processing route: ${routeKey}, prefix: ${config.prefix}, selectElementId: ${selectElementId}, found element:`, selectElement);
         if (selectElement && selectElement.tagName === 'SELECT') {
-            populateTrainNoDropdown(selectElement, config.options);
+            populateTrainNoDropdown(selectElement, config.options, routeKey); // Pass routeKey for debugging
             selectElement.addEventListener('change', handleTrainNoChange);
+        } else {
+            // console.warn(`Could not find SELECT element with ID: ${selectElementId} for route ${routeKey}`);
         }
     }
+    // console.log("Dropdown initialization complete.");
 
     const populateFormForMasterEdit = (routeKey, index) => {
         const config = routeConfigs[routeKey];
@@ -176,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showConfirmation("Error: Invalid route configuration for edit.", true);
             return;
         }
-        const targetFormId = config.formId; // Use formId from config
+        const targetFormId = config.formId;
 
         if (currentEditDetails && currentEditDetails.formId && currentEditDetails.formId !== targetFormId) {
             const currentlyEditingForm = document.getElementById(currentEditDetails.formId);
@@ -202,6 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const trainNoSelect = document.getElementById(`${prefix}-trainNo`);
         if (trainNoSelect && trainNoSelect.tagName === 'SELECT') {
             trainNoSelect.value = item.trainNo;
+            // console.log(`Set ${trainNoSelect.id} to ${item.trainNo}, dispatching change.`);
             trainNoSelect.dispatchEvent(new Event('change'));
         }
 
@@ -225,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentRouteKey = Object.keys(routeConfigs).find(key => routeConfigs[key].prefix === prefix);
 
                 if (!currentRouteKey) {
-                    console.error("Could not determine routeKey for form:", submittedFormId);
+                    console.error("Submit: Could not determine routeKey for form:", submittedFormId);
                     showConfirmation("Error: Form configuration not found.", true);
                     return;
                 }
@@ -235,12 +280,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 let trainName = document.getElementById(`${config.prefix}-hidden-trainName`).value;
                 let scheduledTimeValue = document.getElementById(`${config.prefix}-hidden-scheduledTime`).value;
 
-                // If the selected trainNo is empty, it means "-- Select Train No --" was chosen
-                // or the dropdown was for a route with no options. In this case, trainName and scheduledTime might be empty.
-                // A check might be needed if these are truly required even then. For now, assume they can be empty if TrainNo is not selected.
-                if (!trainNo) {
-                    showConfirmation("Please select a Train No.", true);
-                    return; // Prevent submission if no train number is selected
+                if (!trainNo) { // Check if a train number was selected from dropdown
+                    const selectedTrainData = config.options.find(train => train.trainNo === trainNo);
+                    if(!selectedTrainData){ // If not found, it means "-- Select --" or empty was chosen
+                         showConfirmation("Please select a valid Train No.", true);
+                         return;
+                    }
+                    // This block might be redundant if hidden fields are reliably populated
+                }
+                 // Additional check: if hidden fields are empty but trainNo is selected (e.g. if change event didn't fire)
+                if(trainNo && (!trainName || !scheduledTimeValue)){
+                    const selectedTrainData = config.options.find(train => train.trainNo === trainNo);
+                    if(selectedTrainData){
+                        trainName = selectedTrainData.trainName;
+                        scheduledTimeValue = selectedTrainData.scheduledTime;
+                    } else {
+                        // This case should ideally not happen if dropdown is populated and change event works
+                        showConfirmation("Error retrieving Train Name/Scheduled Time. Please re-select Train No.", true);
+                        return;
+                    }
                 }
 
 
@@ -271,7 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentEditDetails && currentEditDetails.formId === submittedFormId) {
                     if (allSchedules[currentEditDetails.routeKey] && allSchedules[currentEditDetails.routeKey][currentEditDetails.index] !== undefined) {
                         allSchedules[currentEditDetails.routeKey][currentEditDetails.index] = entryData;
-                        const readableRouteKey = currentEditDetails.routeKey.toUpperCase().replace(/_/G, ' ').replace(' DEP ', ' (Departure) ').replace(' ARR ', ' (Arrival) ');
+                        const readableRouteKey = currentEditDetails.routeKey.toUpperCase().replace(/_/g, ' ').replace(' DEP ', ' (Departure) ').replace(' ARR ', ' (Arrival) ');
                         showConfirmation(`Entry for ${readableRouteKey} updated successfully!`);
                     } else {
                         showConfirmation("Error: Could not find item to update in storage.", true);
@@ -287,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (!allSchedules[currentRouteKey]) allSchedules[currentRouteKey] = [];
                     allSchedules[currentRouteKey].push(entryData);
-                    const readableRouteKey = currentRouteKey.toUpperCase().replace(/_/G, ' ').replace(' DEP ', ' (Departure) ').replace(' ARR ', ' (Arrival) ');
+                    const readableRouteKey = currentRouteKey.toUpperCase().replace(/_/g, ' ').replace(' DEP ', ' (Departure) ').replace(' ARR ', ' (Arrival) ');
                     showConfirmation(`Entry for ${readableRouteKey} added successfully!`);
                     resetFormDisplay(submittedForm);
                 }
@@ -366,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const index = parseInt(target.dataset.index, 10);
                 populateFormForMasterEdit(routeKey, index);
             } else if (target.classList.contains('cancel-edit-btn')) {
-                const formElement = target.closest('form'); // Get the form this cancel button belongs to
+                const formElement = target.closest('form');
                  if (formElement) {
                     resetFormDisplay(formElement);
                     currentEditDetails = null;
@@ -376,10 +434,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial population of dropdowns and display of data
     displayAllDataOnMasterPage();
 
-    // --- Date/Time Display Logic ---
     const dateTimeElement = document.getElementById('current-datetime');
     function updateDateTimeDisplay() {
         if (dateTimeElement) {
@@ -396,5 +452,4 @@ document.addEventListener('DOMContentLoaded', () => {
         updateDateTimeDisplay();
         setInterval(updateDateTimeDisplay, 1000);
     }
-    // --- End Date/Time Display Logic ---
 });
