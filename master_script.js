@@ -72,7 +72,7 @@ const routeConfigs = {
 document.addEventListener('DOMContentLoaded', () => {
     // --- Authentication Check ---
     if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-        window.location.href = 'login.html'; // Redirect to login page
+        window.location.href = 'index.html'; // Redirect to login page
         return; // Stop further execution of this script
     }
     // --- End Authentication Check ---
