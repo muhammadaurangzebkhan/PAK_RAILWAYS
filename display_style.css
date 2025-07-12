@@ -1,3 +1,6 @@
+html, body {
+    height: 100%; /* Ensure body can fill the viewport height */
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -112,7 +115,7 @@ tbody tr:last-child td {
     background-color: #004d00;
 }
 .departures-theme h2 {
-    color: #90ee90;
+    color: yellow;
     border-bottom-color: #38761d;
 }
 .departures-theme thead th {
@@ -150,7 +153,7 @@ tbody tr:last-child td {
     background-color: #003366;
 }
 .arrivals-theme h2 {
-    color: #add8e6;
+    color: yellow;
     border-bottom-color: #002244;
 }
 .arrivals-theme thead th {
