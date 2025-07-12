@@ -73,6 +73,22 @@
             max-width: 120px; /* Or a size that fits your logo well */
             margin-bottom: 20px;
         }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            color: yellow;
+            font-size: 0.9em;
+            animation: subtleGlowFooter 2s infinite ease-in-out;
+        }
+        @keyframes subtleGlowFooter {
+            0%, 100% { text-shadow: 0 0 3px rgba(255, 255, 0, 0.4); }
+            50% { text-shadow: 0 0 8px rgba(255, 255, 0, 0.8); }
+        }
     </style>
 </head>
 <body>
@@ -92,6 +108,7 @@
         </form>
         <div id="error-message"></div>
     </div>
+    <div class="footer">Developed for Pakistan Railways by M.A Khan</div>
     <script src="login_script.js"></script>
 </body>
 </html>
