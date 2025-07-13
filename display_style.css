@@ -8,7 +8,7 @@ body {
     color: #f0f0f0; /* Light text for dark themes */
     font-size: 16px; /* Base font size for projector readability */
     line-height: 1.6;
-    background-color: #1a1a1a; /* Neutral very dark grey for overall page background */
+    background-color: #000000; /* Shine Black Background */
     padding-bottom: 60px; /* Add padding to the bottom of the body to make space for the footer */
 }
 
@@ -17,28 +17,31 @@ h1 { /* General H1 for the page title, not inside a theme */
     font-size: 2.8em; /* Large main heading */
     margin-bottom: 30px;
     font-weight: 600;
-    color: #cccccc;
-    /* New H1 styling for flex layout */
+    color: yellow; /* Changed to yellow */
+    animation: subtleGlowFooter 2s infinite ease-in-out; /* Apply yellow glow */
+
+    /* Flex layout to position title and time */
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    padding-bottom: 10px; /* Optional: if it wraps, give some space */
-    border-bottom: 1px solid #333; /* Optional: visual separator */
-    margin-bottom: 25px; /* Adjusted from 30px */
+    align-items: baseline; /* Align based on text baseline */
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 25px;
 }
 
 /* Span for the main title text, if needed for alignment */
-/* #page-title-text { flex-grow: 1; text-align: left; } */
-/* The default text-align:center on H1 might be fine if space-between pushes date to far right */
+#page-title-text {
+    margin-right: auto; /* Push date/time to the right */
+}
 
 .current-datetime-display {
-    font-size: 0.5em; /* Relative to H1's font size */
+    /* font-size is removed to inherit from h1 */
     font-weight: normal;
-    color: #bbbbbb; /* Slightly lighter than H1 general color */
-    margin-left: 20px; /* Space from title */
-    white-space: nowrap; /* Prevent date/time from wrapping itself */
-    flex-shrink: 0; /* Prevent it from shrinking too much */
+    /* color is inherited from h1 */
+    margin-left: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .display-container {
