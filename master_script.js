@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const formsContainer = document.querySelector('.forms-container');
     const confirmationMessage = document.getElementById('confirmation-message');
     const LOCAL_STORAGE_KEY = 'trainAppSchedules';
-    let currentEditDetails = null;
+    let currentEditDetails = null; // { routeKey, index, formId }
 
     const showConfirmation = (message, isError = false) => {
         confirmationMessage.textContent = message;
@@ -121,98 +121,97 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    function populateTrainNoDropdown(selectElement, optionsArray, routeKeyForDebug) {
-        // console.log(`Attempting to populate: ${selectElement ? selectElement.id : 'NULL selectElement'} for route ${routeKeyForDebug}`);
-        if (!selectElement) {
-            console.error(`populateTrainNoDropdown: Select element is null for route: ${routeKeyForDebug}. Check ID in HTML and routeConfigs prefix for ${routeKeyForDebug}.`);
-            return;
-        }
-        if (!optionsArray) {
-            console.warn(`populateTrainNoDropdown: Options array is undefined for route: ${routeKeyForDebug}. Dropdown will be empty or show 'No Data'.`);
-            selectElement.innerHTML = '<option value="">-- No Options Defined --</option>';
-            return;
+    function calculateAndUpdateStatus(prefix) {
+        const scheduledTimeValue = document.getElementById(`${prefix}-hidden-scheduledTime`).value;
+        const expectedTimeValue = document.getElementById(`${prefix}-expectedTime`).value;
+        const statusSelect = document.getElementById(`${prefix}-status`);
+
+        if (!statusSelect || !scheduledTimeValue) return; // Can't calculate without a scheduled time
+
+        const currentStatus = statusSelect.value;
+        const isDeparture = prefix.endsWith('-dep');
+        const finalStatuses = isDeparture ? ['Departed', 'Cancelled'] : ['Arrived', 'Cancelled'];
+
+        if (finalStatuses.includes(currentStatus)) {
+            // Don't override a manually set final status unless it's 'Cancelled' and expected time is now added.
+            if (currentStatus === 'Cancelled' && expectedTimeValue) {
+                // falls through to calculation
+            } else {
+                return;
+            }
         }
 
-        selectElement.innerHTML = '<option value="">-- Select Train No --</option>';
-        if (optionsArray.length === 0) {
-            // console.log(`populateTrainNoDropdown: Options array is empty for ${routeKeyForDebug}. Populating with 'No Data'.`);
-            // No need to add another option if it's already empty and has the default
-            // selectElement.innerHTML = '<option value="">-- No Data --</option>'; // This would overwrite the default select
+        if (expectedTimeValue) {
+            if (expectedTimeValue > scheduledTimeValue) statusSelect.value = "Late";
+            else if (expectedTimeValue < scheduledTimeValue) statusSelect.value = "Before";
+            else statusSelect.value = "On Time";
+        } else {
+            statusSelect.value = "Cancelled";
+        }
+    }
+
+    function populateTrainNoDropdown(selectElement, optionsArray) {
+        if (!selectElement || !optionsArray || optionsArray.length === 0) {
+            if(selectElement) selectElement.innerHTML = '<option value="">-- No Data --</option>';
             return;
         }
+        selectElement.innerHTML = '<option value="">-- Select Train No --</option>';
         optionsArray.forEach(train => {
             const option = document.createElement('option');
             option.value = train.trainNo;
             option.textContent = train.trainNo;
             selectElement.appendChild(option);
         });
-        // console.log(`Finished populating: ${selectElement.id}, options count: ${selectElement.options.length}`);
     }
 
     function handleTrainNoChange(event) {
         const selectElement = event.target;
-        // console.log(`Train No changed for: ${selectElement.id}, New value: ${selectElement.value}`);
         const form = selectElement.closest('form');
-        if (!form) {
-            console.error("handleTrainNoChange: Could not find parent form for select:", selectElement.id);
-            return;
-        }
+        if (!form) return;
         const prefix = form.id.replace('form-', '');
-        // console.log(`Derived prefix: ${prefix}`);
 
         const routeKeyFromFormId = Object.keys(routeConfigs).find(key => routeConfigs[key].prefix === prefix);
-        if (!routeKeyFromFormId) {
-            console.error(`handleTrainNoChange: Could not find routeConfig for prefix: ${prefix}`);
-            return;
-        }
-        // console.log(`Found routeKey: ${routeKeyFromFormId}`);
+        if (!routeKeyFromFormId) return;
 
         const config = routeConfigs[routeKeyFromFormId];
         const optionsArray = config.options;
-        // console.log("Using optionsArray:", optionsArray);
-
 
         const trainNameDisplay = document.getElementById(`${prefix}-trainName-display`);
         const scheduledTimeDisplay = document.getElementById(`${prefix}-scheduledTime-display`);
         const hiddenTrainName = document.getElementById(`${prefix}-hidden-trainName`);
         const hiddenScheduledTime = document.getElementById(`${prefix}-hidden-scheduledTime`);
 
-        // console.log("Display/Hidden elements:", trainNameDisplay, scheduledTimeDisplay, hiddenTrainName, hiddenScheduledTime);
-
         const selectedTrainNo = selectElement.value;
         const selectedTrainData = optionsArray.find(train => train.trainNo === selectedTrainNo);
-        // console.log("Selected Train No:", selectedTrainNo, "Found Data:", selectedTrainData);
 
         if (selectedTrainData) {
             if(trainNameDisplay) trainNameDisplay.textContent = selectedTrainData.trainName;
             if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = selectedTrainData.scheduledTime;
             if(hiddenTrainName) hiddenTrainName.value = selectedTrainData.trainName;
             if(hiddenScheduledTime) hiddenScheduledTime.value = selectedTrainData.scheduledTime;
-            // console.log("Updated fields with:", selectedTrainData.trainName, selectedTrainData.scheduledTime);
         } else {
             if(trainNameDisplay) trainNameDisplay.textContent = '-';
             if(scheduledTimeDisplay) scheduledTimeDisplay.textContent = '-';
             if(hiddenTrainName) hiddenTrainName.value = '';
             if(hiddenScheduledTime) hiddenScheduledTime.value = '';
-            // console.log("Cleared fields because no train data found for:", selectedTrainNo);
         }
+        // After updating scheduled time, re-calculate the status
+        calculateAndUpdateStatus(prefix);
     }
 
-    // Initialize all dropdowns and attach change listeners
-    // console.log("Initializing dropdowns...");
     for (const routeKey in routeConfigs) {
         const config = routeConfigs[routeKey];
-        const selectElementId = `${config.prefix}-trainNo`;
-        const selectElement = document.getElementById(selectElementId);
-        // console.log(`Processing route: ${routeKey}, prefix: ${config.prefix}, selectElementId: ${selectElementId}, found element:`, selectElement);
+        const selectElement = document.getElementById(`${config.prefix}-trainNo`);
+        const expectedTimeElement = document.getElementById(`${config.prefix}-expectedTime`);
+
         if (selectElement && selectElement.tagName === 'SELECT') {
-            populateTrainNoDropdown(selectElement, config.options, routeKey); // Pass routeKey for debugging
+            populateTrainNoDropdown(selectElement, config.options);
             selectElement.addEventListener('change', handleTrainNoChange);
-        } else {
-            // console.warn(`Could not find SELECT element with ID: ${selectElementId} for route ${routeKey}`);
+        }
+        if (expectedTimeElement) {
+            expectedTimeElement.addEventListener('change', () => calculateAndUpdateStatus(config.prefix));
         }
     }
-    // console.log("Dropdown initialization complete.");
 
     const populateFormForMasterEdit = (routeKey, index) => {
         const config = routeConfigs[routeKey];
@@ -246,7 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const trainNoSelect = document.getElementById(`${prefix}-trainNo`);
         if (trainNoSelect && trainNoSelect.tagName === 'SELECT') {
             trainNoSelect.value = item.trainNo;
-            // console.log(`Set ${trainNoSelect.id} to ${item.trainNo}, dispatching change.`);
             trainNoSelect.dispatchEvent(new Event('change'));
         }
 
@@ -280,44 +278,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 let trainName = document.getElementById(`${config.prefix}-hidden-trainName`).value;
                 let scheduledTimeValue = document.getElementById(`${config.prefix}-hidden-scheduledTime`).value;
 
-                if (!trainNo) { // Check if a train number was selected from dropdown
-                    const selectedTrainData = config.options.find(train => train.trainNo === trainNo);
-                    if(!selectedTrainData){ // If not found, it means "-- Select --" or empty was chosen
-                         showConfirmation("Please select a valid Train No.", true);
-                         return;
-                    }
-                    // This block might be redundant if hidden fields are reliably populated
+                if (!trainNo) {
+                    showConfirmation("Please select a valid Train No.", true);
+                    return;
                 }
-                 // Additional check: if hidden fields are empty but trainNo is selected (e.g. if change event didn't fire)
                 if(trainNo && (!trainName || !scheduledTimeValue)){
                     const selectedTrainData = config.options.find(train => train.trainNo === trainNo);
                     if(selectedTrainData){
                         trainName = selectedTrainData.trainName;
                         scheduledTimeValue = selectedTrainData.scheduledTime;
-                    } else {
-                        // This case should ideally not happen if dropdown is populated and change event works
-                        showConfirmation("Error retrieving Train Name/Scheduled Time. Please re-select Train No.", true);
-                        return;
                     }
                 }
-
 
                 const expectedTimeValue = document.getElementById(`${prefix}-expectedTime`).value;
+                // Get the final status value from the dropdown, which should have been auto-updated
                 let statusValue = document.getElementById(`${prefix}-status`).value;
                 const platformNo = document.getElementById(`${prefix}-platformNo`).value;
-
-                const isDeparture = currentRouteKey.endsWith('_departure');
-                const finalStatuses = isDeparture ? ['Departed', 'Cancelled'] : ['Arrived', 'Cancelled'];
-
-                if (!finalStatuses.includes(statusValue) || (statusValue === "Cancelled" && expectedTimeValue)) {
-                    if (expectedTimeValue && scheduledTimeValue) {
-                        if (expectedTimeValue > scheduledTimeValue) statusValue = "Late";
-                        else if (expectedTimeValue < scheduledTimeValue) statusValue = "Before";
-                        else statusValue = "On Time";
-                    } else if (!expectedTimeValue && scheduledTimeValue) {
-                        statusValue = "Cancelled";
-                    }
-                }
 
                 const entryData = {
                     trainNo, trainName, scheduledTime: scheduledTimeValue,
