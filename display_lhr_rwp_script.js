@@ -69,14 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPageFileName = window.location.pathname.split('/').pop();
     const currentIndexInSequence = pageSequence.indexOf(currentPageFileName);
 
-    if (currentIndexInSequence !== -1) {
-        const nextPageIndex = (currentIndexInSequence + 1) % pageSequence.length;
-        const nextPageFileName = pageSequence[nextPageIndex];
+    // if (currentIndexInSequence !== -1) {
+    //     const nextPageIndex = (currentIndexInSequence + 1) % pageSequence.length;
+    //     const nextPageFileName = pageSequence[nextPageIndex];
 
-        setTimeout(() => {
-            window.location.href = nextPageFileName;
-        }, 30000);
-    }
+    //     setTimeout(() => {
+    //         window.location.href = nextPageFileName;
+    //     }, 30000);
+    // }
 
     // --- Date/Time Display Logic ---
     const dateTimeElement = document.getElementById('current-datetime');
