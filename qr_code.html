@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 50px;
+        }
+        #qrcode {
+            margin: 20px auto;
+            width: 256px;
+            height: 256px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan QR Code to View Website</h1>
+    <div id="qrcode"></div>
+    <button onclick="window.location.href='master_input.html'">Back to Master Input</button>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script src="qr_code_script.js"></script>
+</body>
+</html>

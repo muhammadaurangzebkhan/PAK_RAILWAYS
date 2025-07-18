@@ -424,6 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
             dateTimeElement.textContent = now.toLocaleString('en-US', options);
         }
     }
+
+    const qrCodeBtn = document.getElementById('qr-code-btn');
+    if (qrCodeBtn) {
+        qrCodeBtn.addEventListener('click', function (event) {
+            event.preventDefault();
+            window.open('qr_code.html', '_blank');
+        });
+    }
     if (dateTimeElement) {
         updateDateTimeDisplay();
         setInterval(updateDateTimeDisplay, 1000);
